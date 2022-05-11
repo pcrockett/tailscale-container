@@ -23,7 +23,7 @@ up:
 stop:
 	"${CONTAINER_RUNTIME}" stop "${CONTAINER_NAME}"
 
-update-restart: pull build stop run up
+update-restart: pull build stop run
 
 lint:
 	hadolint Dockerfile

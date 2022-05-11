@@ -11,5 +11,5 @@ if [ ! -f "${logged_in_file}" ]; then
         --hostname "${TAILSCALE_HOSTNAME}"
     touch "${logged_in_file}"
 else
-    /usr/local/bin/tailscale up --advertise-exit-node
+    /usr/local/bin/tailscale up
 fi
