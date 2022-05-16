@@ -31,6 +31,7 @@ To update and restart a running Tailscale container: `make update-restart`
 ### TODO
 
 * [x] Get working on Raspberry Pi
+* [ ] Get working on fly.io
 * [ ] Docker Compose
 * [ ] Systemd service file plus `make install`
 
