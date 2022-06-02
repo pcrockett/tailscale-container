@@ -21,12 +21,12 @@ The Makefile uses [Podman](https://podman.io/), however you can change the runti
 1. Copy the `.env.example` file to `.env`
 2. [Generate an auth key in your Tailscale account settings](https://login.tailscale.com/admin/settings/keys) (tip: don't make the key reusable or ephemeral)
 3. Copy / paste that key into the `.env` file
-4. Run `make build run up`
+4. Run `make build run init`
 5. Go to Tailscale account settings, [find your device](https://login.tailscale.com/admin/machines), edit route settings, and turn on "Use as exit node"
 
 From now on, you just need to do `make run` to start the container.
 
-To update and restart a running Tailscale container: `make update-restart`
+To update and restart a running Tailscale container: `make update restart`
 
 ### TODO
 

@@ -1,4 +1,4 @@
-.PHONY: pull build run up stop update-restart lint
+.PHONY: pull build run init stop update restart lint
 IMAGE_NAME = tailscale-exit
 CONTAINER_NAME = tailscaled
 CONTAINER_RUNTIME = podman
@@ -17,13 +17,15 @@ run:
 		--volume "${VOLUME_NAME}:/var/lib/tailscale" \
 		"${IMAGE_NAME}"
 
-up:
-	"${CONTAINER_RUNTIME}" exec "${CONTAINER_NAME}" up.sh
+init:
+	"${CONTAINER_RUNTIME}" exec "${CONTAINER_NAME}" init.sh
 
 stop:
 	"${CONTAINER_RUNTIME}" stop "${CONTAINER_NAME}"
 
-update-restart: pull build stop run
+update: pull build
+
+restart: stop run
 
 lint:
 	hadolint Dockerfile
