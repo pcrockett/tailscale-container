@@ -28,12 +28,36 @@ From now on, you just need to do `make run` to start the container.
 
 To update and restart a running Tailscale container: `make update restart`
 
+### Running as a systemd service
+
+If you want the container to:
+
+* start running automatically when your machine has booted
+* run under an unprivileged user account
+* automatically restart if it crashes for some reason
+
+...then that's not too hard.
+
+1. Log into your machine as the unprivileged user.
+2. Get your container set up as in the [Getting Started](#getting-started) section.
+3. While the container is running, do `make install`.
+
+You will also need to enable lingering for the user account that the container is running under. As root, run:
+
+```bash
+loginctl enable-linger ${YOUR_UNPRIVILEGED_USERNAME}
+```
+
+That should do it.
+
+_This only works if you're using Podman. If you're using Docker... pull requests welcome._
+
 ### TODO
 
 * [x] Get working on Raspberry Pi
+* [x] Systemd service file plus `make install`
 * [ ] Get working on fly.io
-* [ ] Docker Compose
-* [ ] Systemd service file plus `make install`
+* [ ] Docker Compose?
 
 ### References
 
