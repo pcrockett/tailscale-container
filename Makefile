@@ -1,4 +1,4 @@
-.PHONY: pull build run init stop update restart lint
+.PHONY: pull build run init stop update restart lint generate-systemd
 IMAGE_NAME = tailscale-exit
 CONTAINER_NAME = tailscaled
 CONTAINER_RUNTIME = podman
@@ -29,3 +29,6 @@ restart: stop run
 
 lint:
 	hadolint Dockerfile
+
+generate-systemd:
+	podman generate systemd --new --name "${CONTAINER_NAME}" > ./container-tailscaled.service
