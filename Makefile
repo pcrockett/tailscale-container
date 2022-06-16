@@ -1,4 +1,4 @@
-.PHONY: pull build run init stop update restart restart-service lint install uninstall
+.PHONY: pull build run init stop status update restart restart-service lint install uninstall
 IMAGE_NAME = tailscale-exit
 CONTAINER_NAME = tailscaled
 CONTAINER_RUNTIME = podman
@@ -22,6 +22,9 @@ init:
 
 stop:
 	"${CONTAINER_RUNTIME}" stop "${CONTAINER_NAME}"
+
+status:
+	"${CONTAINER_RUNTIME}" exec "${CONTAINER_NAME}" /usr/local/bin/tailscale status
 
 update: pull build
 
