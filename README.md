@@ -2,19 +2,23 @@
 
 **Work in progress**
 
-Use Podman / Docker to run a Tailscale exit node. Run multiple instances for different people, run it in a container in
-the cloud, etc.
+Use Podman / Docker to run a Tailscale exit node. There are several possible advantages to doing this:
 
-The advantage to using this container is that it doesn't require `CAP_NET_RAW`, `CAP_NET_ADMIN`, mounting
-`/dev/net/tun`, or running in host networking mode with privileges.
+* Run the Tailscale daemon as a non-admin user
+* Run an exit node in a cloud-hosted container (i.e. Heroku, fly.io, etc.)
+* Run without modifying any of the host's network settings (iptables, routes, etc.)
+* Run multiple isolated instances of the Tailscale daemon for different people on the same device
 
-The downside: The container uses user-mode networking, so it may not be quite as fast, and it's really only good for
-using as an exit node or subnet router.
+The downsides:
+
+* The container uses user-mode networking, so it may not be quite as fast
+* It's really only good for using as an exit node, (or with a couple small modifications, a subnet router)
 
 ### Dependencies
 
-The Makefile uses [Podman](https://podman.io/), however you can change the runtime to Docker by adjusting the
-`CONTAINER_RUNTIME` variable at the top.
+* `make`
+* [Podman](https://podman.io/) (however you can change the runtime to Docker by adjusting the
+`CONTAINER_RUNTIME` variable at the top)
 
 ### Getting Started
 
