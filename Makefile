@@ -3,6 +3,7 @@ IMAGE_NAME = tailscale-exit
 CONTAINER_NAME = tailscaled
 CONTAINER_RUNTIME = podman
 VOLUME_NAME = tailscaled-state
+SERVICE_NAME = container-tailscaled
 
 pull:
 	"${CONTAINER_RUNTIME}" pull docker.io/tailscale/tailscale:stable
@@ -32,7 +33,7 @@ restart: stop run
 
 restart-service:
 	# Assumption: You have already run `make install` successfully
-	systemctl restart --user container-tailscaled.service
+	systemctl restart --user "${SERVICE_NAME}.service"
 
 lint:
 	hadolint Dockerfile
@@ -52,13 +53,13 @@ install:
 	#
 	mkdir --parent ~/.config/systemd/user
 	podman generate systemd --new --name "${CONTAINER_NAME}" \
-		> ~/.config/systemd/user/container-tailscaled.service
+		> "${HOME}/.config/systemd/user/${SERVICE_NAME}.service"
 	systemctl daemon-reload --user
 	podman stop "${CONTAINER_NAME}"
-	systemctl enable --user --now container-tailscaled.service
+	systemctl enable --user --now "${SERVICE_NAME}.service"
 
 uninstall:
 	# Undo the `install` target
-	systemctl disable --user --now container-tailscaled.service
-	rm -f ~/.config/systemd/user/container-tailscaled.service
+	systemctl disable --user --now "${SERVICE_NAME}.service"
+	rm -f "${HOME}/.config/systemd/user/${SERVICE_NAME}.service"
 	systemctl daemon-reload --user
