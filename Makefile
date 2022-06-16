@@ -1,4 +1,4 @@
-.PHONY: pull build run init stop update restart lint install uninstall
+.PHONY: pull build run init stop update restart restart-service lint install uninstall
 IMAGE_NAME = tailscale-exit
 CONTAINER_NAME = tailscaled
 CONTAINER_RUNTIME = podman
@@ -27,8 +27,13 @@ update: pull build
 
 restart: stop run
 
+restart-service:
+	# Assumption: You have already run `make install` successfully
+	systemctl restart --user container-tailscaled.service
+
 lint:
 	hadolint Dockerfile
+	shellcheck *.sh
 
 install:
 	# Install the container as a non-root systemd service.

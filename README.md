@@ -34,6 +34,8 @@ To update and restart a running Tailscale container: `make update restart`
 
 ### Running as a systemd service
 
+_This only works if you're using Podman. If you're using Docker... pull requests welcome._
+
 If you want the container to:
 
 * start running automatically when your machine has booted
@@ -52,9 +54,8 @@ You will also need to enable lingering for the user account that the container i
 loginctl enable-linger ${YOUR_UNPRIVILEGED_USERNAME}
 ```
 
-That should do it.
-
-_This only works if you're using Podman. If you're using Docker... pull requests welcome._
+That should do it. Updating the container now should be the same as in the _Getting Started_ section, except instead of `make update
+restart`, you should do `make update restart-service`.
 
 ### TODO
 
