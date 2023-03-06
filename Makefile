@@ -7,6 +7,7 @@ SERVICE_NAME = container-tailscaled
 
 pull:
 	"${CONTAINER_RUNTIME}" pull docker.io/tailscale/tailscale:stable
+	"${CONTAINER_RUNTIME}" pull docker.io/golang:1.20-alpine3.17
 
 build:
 	"${CONTAINER_RUNTIME}" build --tag "${IMAGE_NAME}" .
