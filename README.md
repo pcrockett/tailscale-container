@@ -2,6 +2,15 @@
 
 **Work in progress**
 
+---
+
+**UPDATE 2023-11-01:** The build is currently not working because of
+[an upstream issue with Tailscale](https://github.com/tailscale/tailscale/issues/9902). It should
+be a trivial problem to fix though. Even if Tailscale never gets around to it, it might be a good
+idea to build my own container from scratch for reliability.
+
+---
+
 Use Podman / Docker to run a Tailscale exit node. There are several possible advantages to doing this:
 
 * Run the Tailscale daemon as a non-admin user

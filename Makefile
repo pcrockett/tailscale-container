@@ -1,4 +1,3 @@
-.PHONY: pull build run init stop status update restart restart-service lint install uninstall
 IMAGE_NAME = tailscale-exit
 CONTAINER_NAME = tailscaled
 CONTAINER_RUNTIME = podman
@@ -7,37 +6,47 @@ SERVICE_NAME = container-tailscaled
 
 pull:
 	"${CONTAINER_RUNTIME}" pull docker.io/tailscale/tailscale:stable
+.PHONY: pull
 
 build:
 	"${CONTAINER_RUNTIME}" build --tag "${IMAGE_NAME}" .
+.PHONY: build
 
-run:
+run: build
 	"${CONTAINER_RUNTIME}" run --rm --detach \
 		--env-file "$(shell pwd)/.env" \
 		--name "${CONTAINER_NAME}" \
 		--volume "${VOLUME_NAME}:/var/lib/tailscale" \
 		"${IMAGE_NAME}"
+.PHONY: run
 
 init:
 	"${CONTAINER_RUNTIME}" exec "${CONTAINER_NAME}" init.sh
+.PHONY: init
 
 stop:
 	"${CONTAINER_RUNTIME}" stop "${CONTAINER_NAME}"
+.PHONY: stop
 
 status:
 	"${CONTAINER_RUNTIME}" exec "${CONTAINER_NAME}" /usr/local/bin/tailscale status
+.PHONY: status
 
 update: pull build
+.PHONY: update
 
 restart: stop run
+.PHONY: restart
 
 restart-service:
 	# Assumption: You have already run `make install` successfully
 	systemctl restart --user "${SERVICE_NAME}.service"
+.PHONY: restart-service
 
 lint:
 	hadolint Dockerfile
 	shellcheck *.sh
+.PHONY: lint
 
 install:
 	# Install the container as a non-root systemd service.
@@ -57,9 +66,11 @@ install:
 	systemctl daemon-reload --user
 	podman stop "${CONTAINER_NAME}"
 	systemctl enable --user --now "${SERVICE_NAME}.service"
+.PHONY: install
 
 uninstall:
 	# Undo the `install` target
 	systemctl disable --user --now "${SERVICE_NAME}.service"
 	rm -f "${HOME}/.config/systemd/user/${SERVICE_NAME}.service"
 	systemctl daemon-reload --user
+.PHONY: uninstall
